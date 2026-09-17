@@ -1,0 +1,30 @@
+{
+  // KV 版：**不需要开通 R2，也就不需要绑卡**。
+  // 文件存在 Workers KV 里。点「Deploy to Cloudflare」时，Cloudflare 会照着这份配置
+  // 自动新建一个 KV、部署 Worker —— 下面 kv_namespaces 故意不写 id，不写才会自动建。
+  "name": "atoolne",
+  "main": "src/index.js",
+  "compatibility_date": "2026-01-01",
+  "workers_dev": true,
+  "preview_urls": false,
+
+  // 上传与删除必须使用的口令。这里只声明它是必填密钥，
+  // 真正的值由每位使用者在部署页自行填写，绝不能写进模板。
+  "secrets": {
+    "required": ["UPLOAD_KEY"]
+  },
+
+  // 文件都放这个 KV 里。binding 名字必须是 FILES，代码里认这个。
+  "kv_namespaces": [
+    { "binding": "FILES","id": "df96d5069d5a4d9bad7708e641d66423" }
+  ],
+
+  "vars": {
+    // 单个文件上限。KV 最大就是 25MB，写更大也会被代码封顶在 25
+    "MAX_MB": "25",
+    // 想只允许自己的站点调用，把 * 换成 https://你的域名
+    "ALLOW_ORIGIN": "*"
+  },
+
+  "observability": { "enabled": true }
+}
